@@ -1,6 +1,7 @@
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export const fetchOpenAIResponse = async (prompt: string) => {
+  console.log("Backend URL:", BACKEND_URL); // Add this
   try {
     const response = await fetch(`${BACKEND_URL}/openai/chat`, {
       method: "POST",
