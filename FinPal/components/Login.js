@@ -5,5 +5,6 @@ export default function Home(){
     return(
     <View>
     <Text>Welcome to FinPal</Text>
+    <Text>Login or Sign Up!</Text>
     </View>)
 };

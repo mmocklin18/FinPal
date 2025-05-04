@@ -9,10 +9,12 @@ const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV;
 const PLAID_BASE_URL = `https://${PLAID_ENV}.plaid.com`;
 
-
-router.post("/create_link_token", async (req, res) => {
     console.log("Received request for /create_link_token");
-
+    console.log("Client ID:", PLAID_CLIENT_ID);
+    console.log("Secret:", PLAID_SECRET);
+    console.log("Env:", PLAID_ENV); 
+router.post("/create_link_token", async (req, res) => {
+    
     try {
         const plaidResponse = await axios.post(`${PLAID_BASE_URL}/link/token/create`, {
             client_id: PLAID_CLIENT_ID,
@@ -23,7 +25,7 @@ router.post("/create_link_token", async (req, res) => {
             country_codes: ["US"],
             language: "en",
         });
-
+        
         console.log("Plaid Response:", plaidResponse.data); // Debugging log
 
         res.json({ link_token: plaidResponse.data.link_token });
