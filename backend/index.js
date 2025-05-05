@@ -8,10 +8,11 @@ app.use(cors());
 
 const plaidRoutes = require("./routes/plaidRoutes");
 const openaiRoutes = require("./routes/openaiRoutes"); // Import OpenAI routes
+const authRoutes = require("./routes/authRoutes")
 
-
-app.use("/plaid", plaidRoutes);
-app.use("/openai", openaiRoutes);
+app.use("/api/plaid", plaidRoutes);
+app.use("/api/openai", openaiRoutes);
+app.use("/api/auth/", authRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend is working!");

@@ -1,19 +1,10 @@
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+import api from "../utils/api";
 
 export const fetchOpenAIResponse = async (prompt: string) => {
-  console.log("Backend URL:", BACKEND_URL); // Add this
   try {
-    const response = await fetch(`${BACKEND_URL}/openai/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt }),
-    });
-
-    const data = await response.json();
-    console.log("Full API Response:", JSON.stringify(data, null, 2));
-    return data.response || "No response from AI"
+    const response = await api.post("/openai/chat", {prompt}); 
+    return response.data.response || "No response from AI"
 
   } catch (error) {
     console.error("OpenAI API Error:", error);
