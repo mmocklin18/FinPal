@@ -10,9 +10,9 @@ export default function Layout() {
 
         //Assign unique icons to tabs
         if (route.name === 'Dashboard') {
-          icon = require('../assets/creditcard.png');
+          icon = require('../../assets/creditcard.png');
         } else if (route.name === 'Chat') {
-          icon = require('../assets/headset.png');
+          icon = require('../../assets/headset.png');
         }
 
         return {

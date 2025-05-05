@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
-import Card from '../components/Card';
-import Balance from '../components/Balance';
-import Transactions from '../components/Transactions';
+import Card from '../../components/Card';
+import Balance from '../../components/Balance';
+import Transactions from '../../components/Transactions';
 import TestButton from "@/components/TestButton";
 import * as React from 'react';
 import {useState, useEffect} from "react";
@@ -9,7 +9,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { NotificationBehavior } from 'expo-notifications';
 import Constants from "expo-constants";
-import { Transaction } from "../types/transactions"
+import { Transaction } from "../../types/transactions"
 
 
 Notifications.setNotificationHandler({
