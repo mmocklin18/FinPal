@@ -13,15 +13,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../utils/api";
 
 
-export default function Login() {
+export default function Register() {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleLogin = async () => {
+    const handleRegister = async () => {
         try {
-            const result = await api.post("/auth/login", { email, password });        
+            const result = await api.post("/auth/register", { email, password });        
             await AsyncStorage.setItem("token", result.data.token);
             router.replace("/(tabs)/Dashboard");
         } catch (err: any) {
@@ -34,7 +34,7 @@ export default function Login() {
         <KeyboardAvoidingView
          behavior={Platform.select({ ios: "padding", android: undefined })}
          style={styles.container}>
-            <Text style={styles.title}>Welcome Back to FinPal!</Text>
+            <Text style={styles.title}>Get Started with FinPal!</Text>
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -52,13 +52,8 @@ export default function Login() {
               secureTextEntry
             />
             {error ? <Text style={styles.error}>{error}</Text> : null}
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Log In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/Register")}>
-            <Text style={{ color: "#1a202c", marginTop: 12 }}>
-                Don't have an account? Sign up
-            </Text>
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
-    baseURL: "http://localhost:5001/api",
+    baseURL: "http://192.168.1.6:5001/api",
 });
 
 //On every request in /api, if token is in aysnc storage add to header

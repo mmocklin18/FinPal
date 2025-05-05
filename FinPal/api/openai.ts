@@ -1,4 +1,3 @@
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 import api from "../utils/api";
 
 export const fetchOpenAIResponse = async (prompt: string) => {
