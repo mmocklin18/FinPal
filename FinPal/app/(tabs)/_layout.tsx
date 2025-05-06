@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Image } from 'react-native';
+import  LogoutButton  from '../../components/LogoutButton';
 
 export default function Layout() {
   return (
@@ -16,7 +17,7 @@ export default function Layout() {
         }
 
         return {
-          headerShown: false,
+          headerShown: true,
           tabBarLabel: label,
           tabBarIcon: ({ focused }) => (
             <Image
@@ -28,6 +29,7 @@ export default function Layout() {
               }}
             />
           ),
+          headerRight: () => <LogoutButton/>,
         };
       }}
     />

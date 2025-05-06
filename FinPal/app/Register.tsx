@@ -55,6 +55,11 @@ export default function Register() {
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.replace("/Login")}>
+            <Text style={{ color: "#1a202c", marginTop: 12 }}>
+                Already have an account? Log in
+            </Text>
+            </TouchableOpacity>
         </KeyboardAvoidingView>
 
     );
