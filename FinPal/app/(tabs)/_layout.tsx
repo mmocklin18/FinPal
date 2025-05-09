@@ -1,8 +1,21 @@
 import { Tabs } from 'expo-router';
-import { Image } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import  LogoutButton  from '../../components/LogoutButton';
+import { useFonts } from "expo-font";
 
 export default function Layout() {
+
+  const [fontsLoaded] = useFonts({
+    Manrope: require('../../assets/fonts/Manrope-VariableFont_wght.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading fonts...</Text>
+      </View>
+    );
+  }
   return (
     <Tabs
       screenOptions={({ route }) => {

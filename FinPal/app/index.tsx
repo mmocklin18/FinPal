@@ -12,7 +12,7 @@ export default function Index() {
             if (token) {
                 router.replace("./(tabs)/Dashboard");
             } else {
-                router.replace("./Login");
+                router.replace("./SplashScreen");
             }
 
         };

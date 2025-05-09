@@ -10,9 +10,10 @@ const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV;
 const PLAID_BASE_URL = `https://${PLAID_ENV}.plaid.com`;
 
-   
-router.post("/create_link_token", verifyToken, async (req, res) => {
-    
+//create initial link token
+router.get("/create-link-token", verifyToken, async (req, res) => {
+    console.log(" Backend hit: GET /plaid/create-link-token");
+
     try {
         const plaidResponse = await axios.post(`${PLAID_BASE_URL}/link/token/create`, {
             client_id: PLAID_CLIENT_ID,
@@ -33,6 +34,28 @@ router.post("/create_link_token", verifyToken, async (req, res) => {
         res.status(500).json({
             error: error.response?.data || "Unknown error",
         });
+    }
+});
+
+//exchange public token for accesss token
+router.post("/exchange-public-token", verifyToken, async (req, res) => {
+    try {
+        const plaidResponse = await axios.post(`${PLAID_BASE_URL}/item/public_token/exchange`, {
+            client_id: PLAID_CLIENT_ID,
+            secret: PLAID_SECRET,
+            public_token: req.body.public_token,
+        });
+
+        const access_token = plaidResponse.data.access_token;
+        const item_id = plaidResponse.data.item_id;
+
+        //TODO: SAVE ACCESS TOKEN SECURELY
+
+        console.log("Access Token:", access_token);
+        res.json({ success: true });
+    } catch (err) {
+        console.error("Plaid public token exchange error", err)
+        res.status(500).json({ error: "Failed to exchange token" });
     }
 });
 

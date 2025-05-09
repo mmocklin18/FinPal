@@ -1,4 +1,5 @@
 import api from "../utils/api";
+import {Link_Token} from "../types"
 
 export const fetchOpenAIResponse = async (prompt: string) => {
   try {

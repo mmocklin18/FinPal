@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,6 +12,16 @@ import {
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../utils/api";
+import {
+    create,
+    open,
+    LinkSuccess,
+    LinkExit,
+    LinkTokenConfiguration,
+    LinkSuccessMetadata,
+    LinkExitMetadata,
+} from 'react-native-plaid-link-sdk';
+import { fetchLinkToken } from "../api/plaid";
 
 
 export default function Register() {
@@ -18,17 +29,55 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [linkToken, setLinkToken] = useState("");
+    const [showPlaid, setShowPlaid] = useState(false);
 
+    //
     const handleRegister = async () => {
         try {
             const result = await api.post("/auth/register", { email, password });        
             await AsyncStorage.setItem("token", result.data.token);
-            router.replace("/(tabs)/Dashboard");
+
+            //activate plaid link UI
+            const token = await fetchLinkToken();
+            if (token) {
+                console.log(token)
+                setLinkToken(token);
+                setShowPlaid(true);
+            } else {
+                //continue with more limited functionality
+                router.replace("/(tabs)/Dashboard");
+            }
+
+
         } catch (err: any) {
             console.error(err);
             setError(err.response?.data?.error || "Login failed.");
         }
     };
+
+    const handlePlaidLink = async () => {
+        if (!linkToken) return;
+
+        try {
+            await create({token: linkToken});
+            await open({
+                onSuccess: async (success: LinkSuccess) => {
+                    await api.post('plaid/exchange-public-token', {
+                        public_token: success.publicToken,
+                    });
+                    router.replace("/(tabs)/Dashboard");
+                },
+                onExit: async (exit: LinkExit) => {
+                    console.warn("User exited Plaid,", exit);
+                    router.replace('/(tabs)/Dashboard');
+                },
+            });
+        } catch (err) {
+            console.error("Plaid error:", err);
+        }
+    };
+
 
     return (
         <KeyboardAvoidingView
@@ -55,11 +104,18 @@ export default function Register() {
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.replace("/Login")}>
+            <TouchableOpacity
+             onPress={() => router.replace("/Login")}>
             <Text style={{ color: "#1a202c", marginTop: 12 }}>
                 Already have an account? Log in
             </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> 
+                
+            {linkToken && showPlaid && (<TouchableOpacity
+             style={styles.button}
+             onPress={handlePlaidLink}>
+                <Text style={styles.buttonText}>Connect Your Bank</Text>
+            </TouchableOpacity> )}
         </KeyboardAvoidingView>
 
     );

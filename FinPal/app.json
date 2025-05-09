@@ -4,7 +4,11 @@
     "slug": "FinPal",
     "version": "1.0.0",
     "extra": {
-      "BACKEND_URL": "http://localhost:5001"
+      "BACKEND_URL": "http://localhost:5001",
+      "router": {},
+      "eas": {
+        "projectId": "d63aed60-93dc-4cab-a242-255f954d1ec9"
+      }
     },
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,7 +41,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

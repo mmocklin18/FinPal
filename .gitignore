@@ -45,3 +45,6 @@ expo-env.d.ts
 # Ignore common files
 node_modules/
 .DS_Store
+
+/android
+/ios
