@@ -2,12 +2,17 @@
 const express = require("express");
 const router = express.Router();
 
+//random id
+const { v4: uuidv4 } = require("uuid");
+
+//User schema
+const User = require("../models/User");
+
+
 //import dependencies for hashing and session management
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-//replace with real DB later
-const users = [];
 
 //secret JWT key
 const JWT_SECRET = process.env.JWT_SECRET || "testKey";
@@ -21,7 +26,7 @@ if (!email || !password) {
 }
 
 //check email for user does not exist
-const existingUser = users.find((user) => user.email === email);
+const existingUser = await User.findOne({email});
 
 if (existingUser) {
     return res.status(400).json({error: "Email already exists in database"});
@@ -32,17 +37,17 @@ const hashed = await bcrypt.hash(password, 10);
 
 //Create new user object
 const newUser = {
-    id: Date.now().toString(),
+    userId: uuidv4(),
     email: email,
     password: hashed
 }
 
 //add user to db
-users.push(newUser);
+await User.create(newUser);
 
 //create jwt token
 const token = jwt.sign(
-    { id: newUser.id },
+    { userId: newUser.userId },
     JWT_SECRET,
     { expiresIn: "7d" }
 );
@@ -51,7 +56,7 @@ const token = jwt.sign(
 res.json({
     token,
     user: {
-     id: newUser.id,
+     userId: newUser.userId,
      email: newUser.email,   
     }
 });
@@ -66,7 +71,7 @@ if (!email || !password) {
     return res.status(400).json({error: "Email and password are required"});
 }
 
-const existingUser = users.find((u) => u.email === email);
+const existingUser = await User.findOne({email});
 
 if (!existingUser) {
     return res.status(400).json({error: "Email does not exist in database"});
@@ -78,7 +83,7 @@ if (!checkPass) {
 }
 
 const token = jwt.sign(
-    { id: existingUser.id },
+    { userId: existingUser.userId },
     JWT_SECRET,
     { expiresIn: "7d" }
 );
@@ -86,7 +91,7 @@ const token = jwt.sign(
 res.json({
     token,
     user: {
-        id: existingUser.id,
+        userId: existingUser.userId,
         email: existingUser.email
     }
 });
