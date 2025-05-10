@@ -1,6 +1,6 @@
 import { fetchOpenAIResponse } from "@/api/openai";
 import React, { useState, useRef } from "react";
-import { View, TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, Platform, Animated } from "react-native";
+import { View, ScrollView, TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, Platform, Animated } from "react-native";
 import { StyleSheet } from 'react-native';
 import {submit} from "react-native-plaid-link-sdk";
 
@@ -50,17 +50,19 @@ export default function Chat() {
                 onChangeText={setInput}
             />
 
+            {loading && <ActivityIndicator size="large" color="#007bff" />}
+
+            <View style={{ height: 300, width: '100%', marginTop: 20 }}>
+                <ScrollView contentContainerStyle={{ padding: 24 }}>
+                    <Animated.View style={[styles.responseContainer, { opacity: fadeAnim }]}>
+                        <Text style={styles.responseText}>{response}</Text>
+                    </Animated.View>
+                </ScrollView>
+            </View>
+
             <TouchableOpacity style={styles.button} onPress={handleInputSubmit} disabled={loading}>
                 <Text style={styles.buttonText}>{loading ? "Loading..." : "Send"}</Text>
             </TouchableOpacity>
-
-            {loading && <ActivityIndicator size="large" color="#007bff" />}
-
-            {response.length > 0 && (
-                <Animated.View style={[styles.responseContainer, { opacity: fadeAnim }]}>
-                <Text style={styles.responseText}>{response}</Text>
-                </Animated.View>
-            )}
         </KeyboardAvoidingView>
     );
 }
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     responseContainer: {
-        marginTop: 20,
         padding: 15,
+        height: 400,
         backgroundColor: "#e0f7fa",
         borderRadius: 10,
         width: "100%",
