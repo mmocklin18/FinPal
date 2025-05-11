@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, StyleSheet} from "react-native";
+
 
 export default function Index() {
     const router = useRouter();
@@ -20,7 +21,7 @@ export default function Index() {
     }, []);
 
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
           <ActivityIndicator size="large" />
         </View>
       );

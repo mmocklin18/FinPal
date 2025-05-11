@@ -17,15 +17,24 @@ export default function SplashScreen() {
 
     const { height, width } = Dimensions.get('window');
 
-
+    //starting values for slide and fade
+    const fadeOut = useRef(new Animated.Value(1)).current;
     const exitTranslateX = useRef(new Animated.Value(0)).current;
 
+    //slide and fade on click
     const handleClick = () => {
-        Animated.timing(exitTranslateX, {
-            toValue: -width, // slide left
-            duration: 500,
-            useNativeDriver: true,
-          }).start(() => {
+        Animated.parallel([
+            Animated.timing(exitTranslateX, {
+              toValue: -width,
+              duration: 500,
+              useNativeDriver: true,
+            }),
+            Animated.timing(fadeOut, {
+              toValue: 0,
+              duration: 500,
+              useNativeDriver: true,
+            }),
+          ]).start(() => {
             router.replace('./Register');
           });
     };
@@ -57,8 +66,14 @@ export default function SplashScreen() {
      
     return(
         
-    <Animated.View
-      style={[StyleSheet.absoluteFill, { transform: [{ translateX: exitTranslateX }] }, {flex: 1}]}
+    <Animated.View style={[
+      StyleSheet.absoluteFill,
+      { flex: 1 },
+      { 
+      transform: [{ translateX: exitTranslateX }],
+      opacity: fadeOut,
+      },
+      ]}
     >
       <TouchableOpacity
         style={StyleSheet.absoluteFill}
