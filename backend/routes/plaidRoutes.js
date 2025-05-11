@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
 const verifyToken = require("../middleware/auth");
+const User = require("../models/User");
 
 const router = express.Router();
 
@@ -48,8 +49,18 @@ router.post("/exchange-public-token", verifyToken, async (req, res) => {
 
         const access_token = plaidResponse.data.access_token;
         const item_id = plaidResponse.data.item_id;
+        const userId = req.user.userId;
 
-        //TODO: SAVE ACCESS TOKEN SECURELY
+        await User.updateOne(
+            { userId },
+            {
+                $set: {
+                    accessToken: access_token,
+                    itemId: item_id,
+                },
+            },
+            {upsert: true}   
+        );
 
         console.log("Access Token:", access_token);
         res.json({ success: true });
