@@ -18,7 +18,7 @@ router.get("/create-link-token", verifyToken, async (req, res) => {
         const plaidResponse = await axios.post(`${PLAID_BASE_URL}/link/token/create`, {
             client_id: PLAID_CLIENT_ID,
             secret: PLAID_SECRET,
-            user: { client_user_id: req.user.id },
+            user: { client_user_id: req.user.userId },
             client_name: "FinPal",
             products: ["transactions"],
             country_codes: ["US"],
