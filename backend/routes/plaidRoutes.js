@@ -70,4 +70,45 @@ router.post("/exchange-public-token", verifyToken, async (req, res) => {
     }
 });
 
+
+//Get transactions data
+router.post("/transactions", verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        const user = await User.findOne({userId});
+       
+        if (!user || !user.accessToken) {
+            return res.status(400).json({ error: "Access token not found" });
+ 
+        }
+        const today = new Date();
+        const startDate = new Date(today.getFullYear(), today.getMonth(), 1); //first day of current month
+        const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); //last day of current month
+
+        const start = startDate.toISOString().split("T")[0];  
+        const end = endDate.toISOString().split("T")[0]; 
+
+        const plaidResponse = await axios.post(`${PLAID_BASE_URL}/transactions/get`, {
+            "client_id": PLAID_CLIENT_ID,
+            "secret": PLAID_SECRET,
+            "access_token": user.accessToken,
+            "start_date": start,
+            "end_date": end,
+            "options": {
+                "count": 100,
+                "offset": 0,
+                "include_personal_finance_category": true
+            },
+        });
+
+        res.json(plaidResponse.data);
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error: "Failed fetching transactions"});
+    }
+
+});
+
 module.exports = router;
