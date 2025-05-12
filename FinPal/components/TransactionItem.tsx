@@ -1,10 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { Transaction } from '../types/transactions';
 
-export default function TransactionItem({ data }) {
+type TransactionItemProps = {
+  data: Transaction;
+};
+
+export default function TransactionItem({ data }: TransactionItemProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.layout}>
-        <View style={styles.contentLayout}>
+      <View style={styles.row}>
+        <View style={styles.left}>
           <View style={[styles.icon, { backgroundColor: data.icon }]} />
           <View>
             <Text style={styles.title}>{data.title}</Text>
@@ -16,6 +21,7 @@ export default function TransactionItem({ data }) {
       </View>
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -24,16 +30,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
     borderBottomColor: '#ddd',
   },
-  layout: {
+  row: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  contentLayout: {
+  left: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -55,13 +60,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     color: '#ff0000',
-    alignSelf: 'start',
   },
   icon: {
     height: 36,
     width: 36,
     borderRadius: 6,
     marginRight: 12,
-    alignSelf: 'start',
   },
 });

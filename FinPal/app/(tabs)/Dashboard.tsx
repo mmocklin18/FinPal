@@ -10,7 +10,7 @@ import * as Notifications from 'expo-notifications';
 import { NotificationBehavior } from 'expo-notifications';
 import Constants from "expo-constants";
 import { Transaction } from "../../types/transactions"
-
+import api from "../../utils/api";
 
 Notifications.setNotificationHandler({
     handleNotification: async (): Promise<NotificationBehavior> => {
@@ -128,6 +128,15 @@ export default function Home() {
 
     }
 
+    const testTransactions = async () => {
+        try {
+            const res = await api.post("/plaid/transactions");
+            console.log(res.data);
+        } catch (err) {
+            console.error("Error fetching transactions", err);
+        }
+    };
+
 
 
     
@@ -137,7 +146,7 @@ export default function Home() {
             <View style={styles.staticSection}>
                 <Balance data={data} budget={budget}/>
                 <TestButton title="Post a Test Transaction" onPress={addTransaction} />
-                <TestButton title="Test Plaid API" onPress={addTransaction} />
+                <TestButton title="Test Plaid API" onPress={testTransacitions} />
             </View>
             <Transactions data={data} />
         </View>
