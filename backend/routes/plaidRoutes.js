@@ -1,8 +1,10 @@
+
 const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
 const verifyToken = require("../middleware/auth");
 const User = require("../models/User");
+const { assignIcon } = require('../utils/assignIcon');
 
 const router = express.Router();
 
@@ -102,7 +104,20 @@ router.post("/transactions", verifyToken, async (req, res) => {
             },
         });
 
-        res.json(plaidResponse.data);
+        const formattedRes = plaidResponse.data.transactions.map((transaction) => ({
+            id: transaction.transaction_id,
+            title: transaction.name,
+            amount: transaction.amount,
+            data: transaction.date,
+            location: transaction.location?.city || "Online",
+            icon: assignIcon(transaction.personal_finance_category?.primary)
+        }));
+        console.log("UNFORMATTED DATA: ", plaidResponse.data);
+        console.log(JSON.stringify(plaidResponse.data.transactions[0], null, 2));
+        console.log("Raw PFC:", plaidResponse.data.transactions[0].personal_finance_category);
+
+
+        res.json(formattedRes);
 
     } catch (err) {
         console.log(err)

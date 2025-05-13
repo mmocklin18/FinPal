@@ -9,6 +9,7 @@ export const fetchLinkToken = async () => {
 
 export const fetchTransactions = async () => {
         const res = await api.get('/plaid/get-transactions');
+        
         console.log(res);
         return res;
 }

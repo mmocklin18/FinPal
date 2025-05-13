@@ -12,121 +12,25 @@ import Constants from "expo-constants";
 import { Transaction } from "../../types/transactions"
 import api from "../../utils/api";
 
-Notifications.setNotificationHandler({
+
+/**Notifications.setNotificationHandler({
     handleNotification: async (): Promise<NotificationBehavior> => {
       return {
         shouldShowAlert: true,
         shouldPlaySound: false,
-        shouldSetBadge: false
+        shouldSetBadge: false,
+        shouldShowBanner: true,
       };
     },
-});
+});*/
 
 export default function Home() {
     const [budget, setBudget] = useState(1000);
-    const [data, setData] = useState([
-        {
-            title: 'Akamai Coffee Shop',
-            location: 'Kihei, HI',
-            date: 'Today, 13:21',
-            amount: (Math.random() * 10).toFixed(2),
-            icon: '#FB8E41',
-        },
-        {
-            title: 'Shops at Wailea',
-            location: 'Wailea, HI',
-            date: 'Yesterday, 20:07',
-            amount: (Math.random() * 25).toFixed(2),
-            icon: '#0091FF',
-        },
-        {
-            title: 'Ono Hawaiian BBQ',
-            location: 'Paia, HI',
-            date: 'Thursday',
-            amount: (Math.random() * 100).toFixed(2),
-            icon: '#34D058',
-        },
-        {
-            title: 'Fond',
-            location: 'Lahaina, HI',
-            date: 'Wednesday',
-            amount: (Math.random() * 10).toFixed(2),
-            icon: '#34D058',
-        },
-        {
-            title: 'Ula’Ula Cafe',
-            location: 'Waihee-Waiehu, HI',
-            date: 'Tuesday',
-            amount: (Math.random() * 15).toFixed(2),
-            icon: '#FB8E41',
-        },
-        {
-            title: "Tante's Fishmarket",
-            location: 'Wailuku, HI',
-            date: 'Monday',
-            amount: (Math.random() * 10).toFixed(2),
-            icon: '#0091FF',
-        },
-    ]);
-    const transactionNames = [
-        'Apple',
-        'REI',
-        'Starbucks',
-        'Amazon',
-        'Target',
-        'Walmart',
-        'Costco',
-        'Best Buy',
-        'Home Depot',
-        'McDonalds',
-        'Burger King'
-        ]
-    const locations = [
-        'Atlanta, GA',
-        'Chicago, IL',
-        'Dallas, TX',
-        'Denver, CO',
-        'Houston, TX',
-        'Los Angeles, CA',
-        'Miami, FL',
-        'New York, NY',
-        'San Francisco, CA',
-        'Seattle, WA',
-        'Washington, DC',
-    ]
-    const colors = [
-        '#FB8E41',
-        '#0091FF',
-        '#34D058',
-        '#5AC8FA',
-        '#5856D6',
-        '#FF2D55',
-        '#FF9500',
-        '#FFCC00'
-    ]
+    const [data, setData] = useState();
 
-    useEffect(() => {
-        schedulePushNotification(data[0], budget, data).then(r => console.log(r));
-    }, [data]);
+    
 
 
-    const addTransaction = async () => {
-        const newTransaction = {
-            title: transactionNames[Math.floor(Math.random() * transactionNames.length)],
-            location: locations[Math.floor(Math.random() * locations.length)],
-            // format current date for ex. "Today, 13:21"
-            date: new Date().toLocaleString('en-US', {
-                weekday: 'long',
-                hour: 'numeric',
-                minute: 'numeric',
-            }),
-            amount: (Math.random() * 100).toFixed(2),
-            icon: colors[Math.floor(Math.random() * colors.length)],
-        };
-        // add new transaction to the beginning of the data array
-        setData([newTransaction, ...data]);
-
-    }
 
     const testTransactions = async () => {
         try {
@@ -144,9 +48,8 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <View style={styles.staticSection}>
-                <Balance data={data} budget={budget}/>
-                <TestButton title="Post a Test Transaction" onPress={addTransaction} />
-                <TestButton title="Test Plaid API" onPress={testTransacitions} />
+                <TestButton title="Post a Test Transaction" onPress={testTransactions} />
+                <TestButton title="Test Plaid API" onPress={testTransactions} />
             </View>
             <Transactions data={data} />
         </View>
