@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Transaction } from '../types/transactions';
+import { useFonts } from 'expo-font';
 
 type TransactionItemProps = {
   data: Transaction;
@@ -10,9 +11,13 @@ export default function TransactionItem({ data }: TransactionItemProps) {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.left}>
-          <View style={[styles.icon, { backgroundColor: data.icon }]} />
+          <View style={styles.icon}>
+            <Text style={styles.emoji}>{data.icon}</Text>
+          </View>
           <View>
-            <Text style={styles.title}>{data.title}</Text>
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
+               {data.title.length > 24 ? data.title.slice(0, 24) + '…' : data.title}
+            </Text>
             <Text style={styles.location}>{data.location}</Text>
             <Text style={styles.date}>{data.date}</Text>
           </View>
@@ -26,11 +31,16 @@ export default function TransactionItem({ data }: TransactionItemProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 16,
-    paddingHorizontal: 20,
     backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+  borderRadius: 16,
+  padding: 16,
+  marginHorizontal: 10,
+  marginVertical: 10,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowRadius: 6,
+  elevation: 2,
+
   },
   row: {
     flex: 1,
@@ -44,27 +54,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 15,
-    fontWeight: '500',
-    marginBottom: 6,
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 2,
+    color: '#111827', 
+    fontFamily: 'Manrope',    
   },
   location: {
-    color: '#666',
-    marginBottom: 6,
-  },
-  date: {
-    color: '#666',
+    color: '#6b7280', 
     fontSize: 13,
   },
+  date: {
+    color: '#9ca3af', 
+    fontSize: 12,
+    marginTop: 2,
+  },
   amount: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
-    color: '#ff0000',
+    color: '#ef4444', 
+    fontFamily: 'Manrope',
   },
   icon: {
-    height: 36,
-    width: 36,
-    borderRadius: 6,
-    marginRight: 12,
+    height: 44,
+    width: 44,
+    borderRadius: 22,
+    marginRight: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f3f4f6', 
+  },
+  emoji: {
+    fontSize: 22,
+    textAlign: 'center',
   },
 });

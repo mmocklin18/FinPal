@@ -108,14 +108,10 @@ router.post("/transactions", verifyToken, async (req, res) => {
             id: transaction.transaction_id,
             title: transaction.name,
             amount: transaction.amount,
-            data: transaction.date,
+            date: transaction.date,
             location: transaction.location?.city || "Online",
             icon: assignIcon(transaction.personal_finance_category?.primary)
         }));
-        console.log("UNFORMATTED DATA: ", plaidResponse.data);
-        console.log(JSON.stringify(plaidResponse.data.transactions[0], null, 2));
-        console.log("Raw PFC:", plaidResponse.data.transactions[0].personal_finance_category);
-
 
         res.json(formattedRes);
 

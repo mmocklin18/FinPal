@@ -13,6 +13,7 @@ import { Transaction } from "../../types/transactions"
 import api from "../../utils/api";
 
 
+
 /**Notifications.setNotificationHandler({
     handleNotification: async (): Promise<NotificationBehavior> => {
       return {
@@ -25,21 +26,23 @@ import api from "../../utils/api";
 });*/
 
 export default function Home() {
-    const [budget, setBudget] = useState(1000);
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
 
     
 
-
-
-    const testTransactions = async () => {
+    //Load user transactions
+    useEffect(() => {
+    const loadTransactions = async () => {
         try {
-            const res = await api.post("/plaid/transactions");
+             const res = await api.post("/plaid/transactions");
             console.log(res.data);
+            setData(res.data);
         } catch (err) {
             console.error("Error fetching transactions", err);
         }
     };
+    loadTransactions();
+    }, []);
 
 
 
@@ -48,8 +51,6 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <View style={styles.staticSection}>
-                <TestButton title="Post a Test Transaction" onPress={testTransactions} />
-                <TestButton title="Test Plaid API" onPress={testTransactions} />
             </View>
             <Transactions data={data} />
         </View>
