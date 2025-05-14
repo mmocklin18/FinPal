@@ -46,5 +46,14 @@ expo-env.d.ts
 node_modules/
 .DS_Store
 
-/android
-/ios
+# Android build output and local files
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+
+# iOS build output
+ios/build/
+ios/Pods/
+ios/Podfile.lock
+

@@ -1,10 +1,11 @@
-
 const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
 const verifyToken = require("../middleware/auth");
 const User = require("../models/User");
 const { assignIcon } = require('../utils/assignIcon');
+const { assignCat } = require('../utils/assignCat');
+
 
 const router = express.Router();
 
@@ -106,6 +107,7 @@ router.post("/transactions", verifyToken, async (req, res) => {
 
         const formattedRes = plaidResponse.data.transactions.map((transaction) => ({
             id: transaction.transaction_id,
+            category: assignCat(transaction.personal_finance_category?.primary),
             title: transaction.name,
             amount: transaction.amount,
             date: transaction.date,

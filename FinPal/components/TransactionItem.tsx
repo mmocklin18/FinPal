@@ -32,14 +32,14 @@ export default function TransactionItem({ data }: TransactionItemProps) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-  borderRadius: 16,
-  padding: 16,
-  marginHorizontal: 10,
-  marginVertical: 10,
-  shadowColor: '#000',
-  shadowOpacity: 0.1,
-  shadowRadius: 6,
-  elevation: 2,
+    borderRadius: 16,
+    padding: 16,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 2,
 
   },
   row: {

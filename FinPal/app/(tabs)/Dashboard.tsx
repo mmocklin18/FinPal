@@ -11,7 +11,10 @@ import { NotificationBehavior } from 'expo-notifications';
 import Constants from "expo-constants";
 import { Transaction } from "../../types/transactions"
 import api from "../../utils/api";
-
+import ProgressRing from "../../components/ProgressRingItem";
+import ProgressRings from '@/components/ProgressRings';
+import getCategoryColor from "../../utils/getCategoryColor"
+import { defaultProgressRings } from '@/data/defaultBudgets';
 
 
 /**Notifications.setNotificationHandler({
@@ -25,23 +28,25 @@ import api from "../../utils/api";
     },
 });*/
 
-export default function Home() {
-    const [data, setData] = useState([]);
+export default function Dashboard() {
+    const [transactions, setTransaction] = useState([]);
+    const [rings, setRings] = useState([]);
 
-    
 
     //Load user transactions
     useEffect(() => {
-    const loadTransactions = async () => {
+    const loadDashboard = async () => {
+        //get transaction data
         try {
              const res = await api.post("/plaid/transactions");
             console.log(res.data);
-            setData(res.data);
+            setTransaction(res.data);
         } catch (err) {
             console.error("Error fetching transactions", err);
         }
+         
     };
-    loadTransactions();
+    loadDashboard();
     }, []);
 
 
@@ -50,14 +55,17 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
+            <ProgressRings data={defaultProgressRings}>
+
+            </ProgressRings>
             <View style={styles.staticSection}>
             </View>
-            <Transactions data={data} />
+            <Transactions data={transactions} />
         </View>
     );
 }
 
-async function schedulePushNotification(
+/** async function schedulePushNotification(
     transaction: Transaction,
     budget: number,
     data: Transaction[]
@@ -83,7 +91,7 @@ async function schedulePushNotification(
             trigger: null,
         });
     }
-}
+}*/
 
 const styles = StyleSheet.create({
     container: {

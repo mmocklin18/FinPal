@@ -1,6 +1,4 @@
-
-
-function assignIcon(primary) {
+export default function assignIcon(primary) {
   if (!primary) return '💼';
   primary = primary.toLowerCase();
   console.log("PRIMARY: ", primary);
@@ -20,5 +18,4 @@ function assignIcon(primary) {
 }
 
 
-module.exports = {assignIcon};
 
