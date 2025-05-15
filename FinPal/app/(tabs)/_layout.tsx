@@ -1,10 +1,11 @@
 import { Tabs } from 'expo-router';
-import { Image, Text, View } from 'react-native';
-import  LogoutButton  from '../../components/LogoutButton';
-import { useFonts } from "expo-font";
+import { Image, Text, View, StyleSheet } from 'react-native';
+import LogoutButton from '../../components/LogoutButton';
+import { useFonts } from 'expo-font';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Layout() {
-
   const [fontsLoaded] = useFonts({
     Manrope: require('../../assets/fonts/Manrope-VariableFont_wght.ttf'),
   });
@@ -16,35 +17,58 @@ export default function Layout() {
       </View>
     );
   }
+
   return (
-        <Tabs
-        screenOptions={({ route }) => {
-          const label = route.name === 'index' ? 'Home' : route.name;
-          let icon;
-
-          //Assign unique icons to tabs
-          if (route.name === 'Dashboard') {
-            icon = require('../../assets/creditcard.png');
-          } else if (route.name === 'Chat') {
-            icon = require('../../assets/headset.png');
-          }
-
-          return {
-            headerShown: true,
-            tabBarLabel: label,
-            tabBarIcon: ({ focused }) => (
-              <Image
-                source={icon}
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: focused ? '#007bff' : '#748c94',
-                }}
-              />
-            ),
-            headerRight: () => <LogoutButton/>,
-          };
-        }}
-      />
+    <LinearGradient
+      colors={['#7392b7', '#e5e7eb']}
+      style={{ flex: 1 }} 
+    >
+      <SafeAreaProvider>
+        <Tabs>
+          <Tabs.Screen
+            name="Dashboard"
+            options={{
+              sceneStyle: {
+                backgroundColor: 'transparent', 
+              },
+              headerShown: true,
+              tabBarLabel: 'Dashboard',
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={require('../../assets/creditcard.png')}
+                  style={{
+                    width: 20,
+                    height: 25,
+                    tintColor: focused ? '#007bff' : '#748c94',
+                  }}
+                />
+              ),
+              headerRight: () => <LogoutButton />,
+            }}
+          />
+          <Tabs.Screen
+            name="Chat"
+            options={{
+              sceneStyle: {
+                backgroundColor: 'transparent',
+              },
+              headerShown: true,
+              tabBarLabel: 'Chat',
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={require('../../assets/headset.png')}
+                  style={{
+                    width: 20,
+                    height: 25,
+                    tintColor: focused ? '#007bff' : '#748c94',
+                  }}
+                />
+              ),
+              headerRight: () => <LogoutButton />,
+            }}
+          />
+        </Tabs>
+      </SafeAreaProvider>
+    </LinearGradient>
   );
 }

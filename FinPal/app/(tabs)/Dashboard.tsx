@@ -1,21 +1,14 @@
-import { View, StyleSheet } from 'react-native';
-import Card from '../../components/Card';
-import Balance from '../../components/Balance';
+import { View, StyleSheet, Text } from 'react-native';
 import Transactions from '../../components/Transactions';
-import TestButton from "@/components/TestButton";
 import * as React from 'react';
 import {useState, useEffect} from "react";
-import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { NotificationBehavior } from 'expo-notifications';
 import Constants from "expo-constants";
-import { Transaction } from "../../types/transactions"
 import api from "../../utils/api";
-import ProgressRing from "../../components/ProgressRingItem";
 import ProgressRings from '@/components/ProgressRings';
-import getCategoryColor from "../../utils/getCategoryColor"
 import { defaultProgressRings } from '@/data/defaultBudgets';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 /**Notifications.setNotificationHandler({
     handleNotification: async (): Promise<NotificationBehavior> => {
@@ -51,47 +44,15 @@ export default function Dashboard() {
 
 
 
-    
-
     return (
         <View style={styles.container}>
-            <ProgressRings data={defaultProgressRings}>
-
-            </ProgressRings>
-            <View style={styles.staticSection}>
-            </View>
+            <ProgressRings data={defaultProgressRings}/>
+            <View style={styles.staticSection}></View>
             <Transactions data={transactions} />
         </View>
     );
 }
 
-/** async function schedulePushNotification(
-    transaction: Transaction,
-    budget: number,
-    data: Transaction[]
-) {
-    const moneyLeft = parseFloat(
-        (budget - data.reduce((acc, tx) => acc + parseFloat(tx.amount), 0)).toFixed(2)
-    );
-
-    if (moneyLeft > 0) {
-        await Notifications.scheduleNotificationAsync({
-            content: {
-                title: `$${transaction.amount} - ${transaction.title}`,
-                body: (moneyLeft > 200) ? `You have $${moneyLeft} left in your budget!` : `Careful, you have $${moneyLeft} left your budget for this month.`,
-            },
-            trigger: null,
-        });
-    } else {
-        await Notifications.scheduleNotificationAsync({
-            content: {
-                title: 'Budget Exceeded',
-                body: `You have exceeded your budget by $${Math.abs(moneyLeft)}.`,
-            },
-            trigger: null,
-        });
-    }
-}*/
 
 const styles = StyleSheet.create({
     container: {
@@ -104,4 +65,17 @@ const styles = StyleSheet.create({
     staticSection: {
         paddingHorizontal: 16,
     },
+    title: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: '#374151', // Tailwind gray-700
+        textAlign: 'center',
+        marginTop: 8,
+        marginBottom: 12,
+        letterSpacing: 0.3,
+        fontFamily:"Manrope"
+    }
+    
+
+
 });

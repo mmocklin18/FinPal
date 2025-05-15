@@ -11,7 +11,11 @@ export default function ProgressRings({data} : ProgressRingsProps) {
     return(
         <FlatList
         data={data}
-        style={{ flex: 1 }}
+        style={{
+            flexGrow: 0,
+            backgroundColor:"#d8e1e9",
+            paddingVertical:10
+         }}
         renderItem={({ item }) =>
             <View style={
                 { 

@@ -25,6 +25,7 @@ export default function ProgressRingItem({data}: ProgressRingProps) {
         lineCap="butt"
         rotation={0}
         style={styles.ring}
+        duration={600}
       >
         {() => (
           <Text style={styles.icon}>{data.label}</Text>
@@ -34,7 +35,7 @@ export default function ProgressRingItem({data}: ProgressRingProps) {
         {`$${data.spent} / $${data.budget}`}
       </Text>
       <Text>
-        {`${data.percentage.toFixed(0)}% remaining`}
+        {`$${(data.budget - data.spent).toFixed(0)} remaining`}
       </Text>
     </View>
   );
@@ -65,9 +66,9 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { 
       width: 0,
-      height: 2
+      height: 5
     },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.2,
     shadowRadius: 6,
     elevation: 4,}
 });
