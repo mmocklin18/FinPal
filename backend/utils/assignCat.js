@@ -3,7 +3,8 @@
 function assignCat(primary) {
   if (!primary) return '💼';
   primary = primary.toLowerCase();
-  console.log("PRIMARY: ", primary);
+
+  
   if (['rent_and_utilities'].includes(primary)) return 'Housing';
   if (['food_and_drink'].includes(primary)) return 'Dining_Out';
   if (['transportation', 'travel'].includes(primary)) return 'Transportation';

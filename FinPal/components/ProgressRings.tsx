@@ -4,7 +4,7 @@ import  ProgressRingItem from './ProgressRingItem';
 import { ProgressRing } from '../types/progressring'
 
 type ProgressRingsProps = {
-    data: ProgressRing[],
+    data: ProgressRing[];
 }
 
 export default function ProgressRings({data} : ProgressRingsProps) {

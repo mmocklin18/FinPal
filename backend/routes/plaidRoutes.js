@@ -76,6 +76,7 @@ router.post("/exchange-public-token", verifyToken, async (req, res) => {
 
 //Get transactions data
 router.post("/transactions", verifyToken, async (req, res) => {
+    console.log("HIT /plaid/transactions");
     try {
         const userId = req.user.userId;
 

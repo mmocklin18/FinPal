@@ -69,11 +69,11 @@ export default function Register() {
                     await api.post('plaid/exchange-public-token', {
                         public_token: success.publicToken,
                     });
-                    router.replace("/(tabs)/Dashboard");
+                    router.replace("/Income");
                 },
                 onExit: async (exit: LinkExit) => {
                     console.warn("User exited Plaid,", exit);
-                    router.replace('/(tabs)/Dashboard');
+                    router.replace('/Income');
                 },
             });
         } catch (err) {

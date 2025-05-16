@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Transaction } from '../types/transactions';
 import { useFonts } from 'expo-font';
+import getCategoryColor from '@/utils/getCategoryColor';
 
 type TransactionItemProps = {
   data: Transaction;
