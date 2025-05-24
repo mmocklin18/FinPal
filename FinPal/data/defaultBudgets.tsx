@@ -29,5 +29,5 @@ export const defaultProgressRings: ProgressRing[] = baseCategories.map((cat) => 
   color: getCategoryColor(cat.name),
   spent: cat.spent,
   budget: cat.budget,
-  percentage: (cat.spent / cat.budget) * 100, // ✅ not 0
+  percentage: (cat.spent / cat.budget) * 100, 
 }));
