@@ -32,10 +32,10 @@ export default function ProgressRingItem({data}: ProgressRingProps) {
         )}
       </AnimatedCircularProgress>
       <Text style={styles.bottomText}>
-        {`$${data.spent} / $${data.budget}`}
+        {`$${data.spent} / $${isNaN(data.budget) ? 0 : data.budget}`}
       </Text>
       <Text>
-        {`$${(data.budget - data.spent).toFixed(0)} remaining`}
+      {`$${isNaN(data.budget) || isNaN(data.spent) ? 0 : (data.budget - data.spent).toFixed(0)} remaining`}
       </Text>
     </View>
   );

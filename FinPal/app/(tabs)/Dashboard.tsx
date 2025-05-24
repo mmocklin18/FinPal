@@ -111,7 +111,7 @@ export default function Dashboard() {
 
     const ringsData: ProgressRing[] = Object.entries(budgetPercentages).map(
         ([category, goalPercent]) => {
-            const goalAmount = monthlyIncome * (goalPercent / 100);
+            const goalAmount = Math.round(monthlyIncome * (goalPercent / 100));
             const spent = Math.round(budgetSpent[category]) || 0;
             const percentage = goalAmount === 0 || isNaN(goalAmount) ? 0 : (spent / goalAmount) * 100;
             return {
